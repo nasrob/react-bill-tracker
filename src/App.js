@@ -6,13 +6,14 @@ import { useEffect, useState } from "react";
 import AddCategory from "./components/AddCategory";
 
 function App() {
-	const [shouldShowCategory, setShouldShowCategory] = useState(true);
+	const [shouldShowAddCategory, setShouldShowAddCategory] =
+		useState(false);
 	const [categories, setCategories] = useState([]);
 
 	const addCategory = (category) => {
 		const updatedCategories = [...(categories || []), category];
 		setCategories(updatedCategories);
-		setShouldShowCategory(false);
+		setShouldShowAddCategory(false);
 		localStorage.setItem(
 			"categories",
 			JSON.stringify(updatedCategories)
@@ -35,17 +36,24 @@ function App() {
 		setCategories(categoriesInLocalStorage);
 
 		if (!categoriesInLocalStorage) {
-			setShouldShowCategory(true);
+			setShouldShowAddCategory(true);
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+	const showAddCategory = () => {
+		setShouldShowAddCategory(true);
+	};
+
 	return (
 		<div className="App">
-			{shouldShowCategory ? (
+			{shouldShowAddCategory ? (
 				<AddCategory onSubmit={addCategory} />
 			) : (
 				<div>
-					<NavBar />
+					<NavBar
+						categories={categories}
+						showAddCategory={showAddCategory}
+					/>
 					<div className="container flex">
 						<div className="w-1/2">
 							<BillsTable />
