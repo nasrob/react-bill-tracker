@@ -2,7 +2,7 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import BillsTable from "./components/BillsTable";
 import Chart from "./components/Chart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddCategory from "./components/AddCategory";
 
 function App() {
@@ -13,7 +13,31 @@ function App() {
 		const updatedCategories = [...(categories || []), category];
 		setCategories(updatedCategories);
 		setShouldShowCategory(false);
+		localStorage.setItem(
+			"categories",
+			JSON.stringify(updatedCategories)
+		);
 	};
+
+	useEffect(() => {
+		const categoriesInLocalStorage = JSON.parse(
+			localStorage.getItem("categories")
+		);
+
+		if (categoriesInLocalStorage !== categories) {
+			setCategories(categoriesInLocalStorage);
+		}
+
+		// if (!categories.length) {
+		// 	setShouldShowCategory(true);
+		// }
+
+		setCategories(categoriesInLocalStorage);
+
+		if (!categoriesInLocalStorage) {
+			setShouldShowCategory(true);
+		}
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className="App">
