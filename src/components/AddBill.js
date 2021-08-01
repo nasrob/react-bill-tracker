@@ -1,7 +1,11 @@
 import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AddBill = (props) => {
 	const [amount, setAmount] = useState(0);
+	const [category, setCategory] = useState(props.categories[0]);
+	const [date, setDate] = useState(new Date());
 
 	const handleChangeAmount = (e) => {
 		setAmount(parseInt(e.target.value), 10);
@@ -14,7 +18,16 @@ const AddBill = (props) => {
 			return;
 		}
 
-		props.onSubmit(amount);
+		// emit the onSubmit event to the parent
+		props.onSubmit(amount, category || props.categories[0], date);
+	};
+
+	const handleChangeCategory = (event) => {
+		setCategory(event.target.value);
+	};
+
+	const handleChangeDate = (date) => {
+		setDate(date);
 	};
 
 	return (
@@ -41,6 +54,8 @@ const AddBill = (props) => {
 							value={amount}
 							onChange={handleChangeAmount}
 						/>
+
+						<DatePicker selected={date} onChange={handleChangeDate} />
 
 						<button
 							className="flex-no-shrink p-2 border-2 rounded bg-teal text-white border-teal hover:text-white hover:bg-teal"
