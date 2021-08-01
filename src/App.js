@@ -75,7 +75,7 @@ function App() {
 					/>
 					<div className="container flex">
 						<div className="w-1/2">
-							<BillsTable />
+							<BillsTable bills={bills} />
 						</div>
 						<div className="w-1/2">
 							<Chart />
