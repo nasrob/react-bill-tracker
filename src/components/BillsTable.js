@@ -3,6 +3,9 @@ import Moment from "react-moment";
 
 const BillsTable = (props) => {
 	const [shouldShowAddBill, setShouldShowAddBill] = useState(false);
+	const triggerShowAddBill = () => {
+		props.showAddBill();
+	};
 
 	return (
 		<table className="table">
@@ -15,9 +18,19 @@ const BillsTable = (props) => {
 				</tr>
 			</thead>
 			<tbody>
+				<tr className="p-4 bg-blue-lighter text-center">
+					<td colSpan="4">
+						<button
+							className="underline"
+							onClick={triggerShowAddBill}
+						>
+							Add a new Bill
+						</button>
+					</td>
+				</tr>
 				{props.bills.map((value, index) => {
 					return (
-						<tr className="p4" key={index}>
+						<tr className="p-4" key={index}>
 							<td>
 								<Moment format="MMMM D YYYY">{value.date}</Moment>
 							</td>

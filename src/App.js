@@ -61,6 +61,10 @@ function App() {
 		localStorage.setItem("bills", JSON.stringify(updatedBills));
 	};
 
+	const showAddBill = () => {
+		setShouldShowAddBill(true);
+	};
+
 	return (
 		<div className="App">
 			{shouldShowAddCategory ? (
@@ -75,7 +79,7 @@ function App() {
 					/>
 					<div className="container flex">
 						<div className="w-1/2">
-							<BillsTable bills={bills} />
+							<BillsTable bills={bills} showAddBill={showAddBill} />
 						</div>
 						<div className="w-1/2">
 							<Chart />
