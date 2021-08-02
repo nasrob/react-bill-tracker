@@ -33,7 +33,7 @@ const AddBill = (props) => {
 	return (
 		<form className="h-100 w-full flex items-center justify-center font-sans">
 			<div className="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
-				<di className="mb-4">
+				<div className="mb-4">
 					<h1 className="text-grey-darkest">Enter a new Bill</h1>
 					<p>E.g. 'Electricity' or 'Gas' or 'Internet'</p>
 					<div className="flex mt-4">
@@ -64,7 +64,7 @@ const AddBill = (props) => {
 							Add
 						</button>
 					</div>
-				</di>
+				</div>
 			</div>
 		</form>
 	);

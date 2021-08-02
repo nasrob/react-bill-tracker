@@ -7,6 +7,10 @@ const BillsTable = (props) => {
 		props.showAddBill();
 	};
 
+	const removeBill = (index) => {
+		props.removeBill(index);
+	};
+
 	return (
 		<table className="table">
 			<thead className="bg-blue text-white">
@@ -36,6 +40,9 @@ const BillsTable = (props) => {
 							</td>
 							<td>${value.amount}</td>
 							<td>{value.category}</td>
+							<td>
+								<button onClick={() => removeBill(index)}>𝗫</button>
+							</td>
 						</tr>
 					);
 				})}
