@@ -1,7 +1,7 @@
 import { Bar } from "react-chartjs-2";
 import moment from "moment";
 
-const Chart = () => {
+const Chart = (props) => {
 	const last12Months = () => {
 		const months = [
 			"January",
@@ -31,7 +31,54 @@ const Chart = () => {
 		return orderedMonths;
 	};
 
-	return <div>Chart</div>;
+	const processBills = (bills) => {
+		const oneYearAgo = moment().subtract(1, "years");
+		const months = last12Months();
+		const monthsWithValues = new Array(12).fill(0);
+
+		console.log("monthsWithValuesInit", monthsWithValues);
+
+		for (const month of monthsWithValues) {
+			monthsWithValues[month] = 0;
+		}
+
+		for (const bill of bills) {
+			if (moment(bill.date).isSameOrBefore(oneYearAgo)) {
+				continue;
+			}
+			const monthName = moment(bill.date).format("MMMM");
+			const indexOfMonth = months.indexOf(monthName);
+			monthsWithValues[indexOfMonth] += parseInt(bill.amount);
+		}
+
+		return monthsWithValues;
+	};
+
+	const data = {
+		labels: last12Months(),
+		datasets: [
+			{
+				label: "Amount",
+				backgroundColor: "rgba(255, 99, 132, 0.2)",
+				borderColor: "rgba(255, 99, 132, 1)",
+				borderWidth: 1,
+				hoverBackgroundColor: "rgba(255, 99, 132, 0.4)",
+				hoverBorderColor: "rgba(255, 99, 132, 0.4)",
+				data: processBills(props.bills),
+			},
+		],
+	};
+
+	return (
+		<div>
+			<Bar
+				data={data}
+				width={100}
+				height={550}
+				options={{ maintainAspectRatio: false }}
+			/>
+		</div>
+	);
 };
 
 export default Chart;
