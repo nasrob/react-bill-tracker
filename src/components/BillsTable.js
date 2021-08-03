@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Moment from "react-moment";
 
 const BillsTable = (props) => {
-	const [shouldShowAddBill, setShouldShowAddBill] = useState(false);
+	// const [shouldShowAddBill, setShouldShowAddBill] = useState(false);
+
 	const triggerShowAddBill = () => {
 		props.showAddBill();
 	};
@@ -15,10 +16,16 @@ const BillsTable = (props) => {
 		<table className="table">
 			<thead className="bg-blue text-white">
 				<tr>
-					<th scope="col">Date</th>
-					<th scope="col">Amount</th>
-					<th scope="col">Category</th>
-					<th scope="col"></th>
+					<th scope="col" className="p-4">
+						Date
+					</th>
+					<th scope="col" className="p-4">
+						Amount
+					</th>
+					<th scope="col" className="p-4">
+						Category
+					</th>
+					<th scope="col" className="p-4"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -35,12 +42,12 @@ const BillsTable = (props) => {
 				{props.bills.map((value, index) => {
 					return (
 						<tr className="p-4" key={index}>
-							<td>
+							<td className="p-4">
 								<Moment format="MMMM D YYYY">{value.date}</Moment>
 							</td>
-							<td>${value.amount}</td>
-							<td>{value.category}</td>
-							<td>
+							<td className="p-4">${value.amount}</td>
+							<td className="p-4">{value.category}</td>
+							<td className="p-4">
 								<button onClick={() => removeBill(index)}>𝗫</button>
 							</td>
 						</tr>

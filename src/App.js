@@ -1,10 +1,10 @@
+import { useEffect, useState } from "react";
 import "./App.css";
-import NavBar from "./components/NavBar";
+import AddBill from "./components/AddBill";
+import AddCategory from "./components/AddCategory";
 import BillsTable from "./components/BillsTable";
 import Chart from "./components/Chart";
-import { useEffect, useState } from "react";
-import AddCategory from "./components/AddCategory";
-import AddBill from "./components/AddBill";
+import NavBar from "./components/NavBar";
 
 function App() {
 	const [shouldShowAddCategory, setShouldShowAddCategory] =
@@ -13,6 +13,8 @@ function App() {
 
 	const [bills, setBills] = useState([]);
 	const [shouldShowAddBill, setShouldShowAddBill] = useState(true);
+
+	const [activeCategory, setActiveCategory] = useState();
 
 	const addCategory = (category) => {
 		const updatedCategories = [...(categories || []), category];
@@ -32,8 +34,6 @@ function App() {
 		const billsInLocalStorage = JSON.parse(
 			localStorage.getItem("bills")
 		);
-
-		console.log("useEffect bills => ", bills);
 
 		if (categoriesInLocalStorage !== categories) {
 			setCategories(categoriesInLocalStorage);
@@ -60,6 +60,7 @@ function App() {
 		const updatedBills = [...(bills || []), bill];
 		setBills(updatedBills);
 		setShouldShowAddBill(false);
+		console.log("ad() bills in App", updatedBills);
 		localStorage.setItem("bills", JSON.stringify(updatedBills));
 	};
 
@@ -69,11 +70,24 @@ function App() {
 
 	const removeBill = (index) => {
 		let updatedBills = [...bills];
+		console.log("rmv() bills in App", updatedBills);
 		updatedBills = updatedBills
 			.slice(0, index)
 			.concat(updatedBills.slice(index + 1, updatedBills.length));
 		setBills(updatedBills);
 		localStorage.setItem("bills", JSON.stringify(updatedBills));
+	};
+
+	const activeBills = () => {
+		return bills
+			.filter((bill) =>
+				activeCategory ? bill.category === activeCategory : true
+			)
+			.sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
+	};
+
+	const setNewActiveCategory = (index) => {
+		setActiveCategory(index);
 	};
 
 	return (
@@ -87,17 +101,19 @@ function App() {
 					<NavBar
 						categories={categories}
 						showAddCategory={showAddCategory}
+						activeCategory={activeCategory}
+						setNewActiveCategory={setNewActiveCategory}
 					/>
 					<div className="container flex">
 						<div className="w-1/2">
 							<BillsTable
-								bills={bills}
+								bills={activeBills()}
 								showAddBill={showAddBill}
 								removeBill={removeBill}
 							/>
 						</div>
 						<div className="w-1/2">
-							<Chart bills={bills} />
+							<Chart bills={activeBills()} />
 						</div>
 					</div>
 				</div>
